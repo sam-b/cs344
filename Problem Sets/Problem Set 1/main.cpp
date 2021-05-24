@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "reference_calc.h"
 #include "compare.h"
+#include <opencv2/imgcodecs.hpp>
 
 void your_rgba_to_greyscale(const uchar4 * const h_rgbaImage, 
                             uchar4 * const d_rgbaImage,

@@ -1,6 +1,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include "utils.h"
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -27,13 +28,13 @@ void preProcess(uchar4 **inputImage, unsigned char **greyImage,
   checkCudaErrors(cudaFree(0));
 
   cv::Mat image;
-  image = cv::imread(filename.c_str(), CV_LOAD_IMAGE_COLOR);
+  image = cv::imread(filename.c_str(), cv::IMREAD_COLOR);
   if (image.empty()) {
     std::cerr << "Couldn't open file: " << filename << std::endl;
     exit(1);
   }
 
-  cv::cvtColor(image, imageRGBA, CV_BGR2RGBA);
+  cv::cvtColor(image, imageRGBA, cv::COLOR_BGR2RGB);
 
   //allocate memory for the output
   imageGrey.create(image.rows, image.cols, CV_8UC1);
@@ -77,7 +78,7 @@ void cleanup()
 
 void generateReferenceImage(std::string input_filename, std::string output_filename)
 {
-  cv::Mat reference = cv::imread(input_filename, CV_LOAD_IMAGE_GRAYSCALE);
+  cv::Mat reference = cv::imread(input_filename, cv::IMREAD_GRAYSCALE);
 
   cv::imwrite(output_filename, reference);
 
